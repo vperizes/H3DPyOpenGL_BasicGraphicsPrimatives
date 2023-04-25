@@ -1,3 +1,6 @@
+import math
+import numpy as np
+
 import pygame
 from pygame.locals import *
 from OpenGL.GL import *
@@ -23,7 +26,6 @@ def init_ortho():
     gluOrtho2D(0, ortho_width, 0, ortho_height)  # need to flip y-scale of projection.
     # Pygame puts origin at upper left corner while openGL puts origin at lower left corner.
     # hence need to create scaling/transform method to go from one coordinate system to another
-
 
 # glBegin(GL_line_strip) ends after one loop through a single line.
 # This behavior allows us to keep lines separate between mouse clicks
