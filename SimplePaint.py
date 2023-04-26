@@ -50,7 +50,8 @@ def plot_lines():
     for line in points:  # loops to grab each line in the points array
         glBegin(GL_LINE_STRIP)
         for coords in line:
-            glVertex2f(coords[0], coords[1])  # this loops lines to get individual points to draw x, y coord of mouse click
+            glVertex2f(coords[0], coords[1])  # this loops lines to get individual points to draw x, y coord
+            # of mouse click
         glEnd()
 
 def save_drawing():
@@ -62,6 +63,22 @@ def save_drawing():
             file.write(str(coords[0]) + " " + str(coords[1]) + "\n")  # writing x and y points in each line
     file.close()
     print("Drawing saved")
+
+
+def load_drawing():
+    file = open("drawing.txt", "r")  # open a file, use r to read it
+    num_of_lines = int(file.readline())  # reading out the number of lines as an integer
+    global points  # declaring global allows us to write info into these arrays
+    global line
+    points = []
+    for l in range(num_of_lines):
+        line = []  # emptying line each time we read a new line
+        points.append(line)
+        num_of_coords = int(file.readline())
+        for coord_number in range(num_of_coords):
+            px, py = [float(value) for value in next(file).split()]  # read line in and splits the numbers at space
+            line.append((px, py))
+            print(str(px) + "," + str(py))
 
 
 done = False
@@ -78,6 +95,10 @@ while not done:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_s:
                 save_drawing()
+            elif event.key == pygame.K_l:
+                load_drawing()
+            elif event.key == pygame.K_SPACE:  # pressing space clear the screen by setting points array to empty
+                points = []
         elif event.type == MOUSEBUTTONDOWN:
             mouse_down = True
             line = []  # rest line array to an empty array to store new points and then append to points array
